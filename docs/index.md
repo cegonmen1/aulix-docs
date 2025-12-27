@@ -4,22 +4,25 @@ layout: home
 
 hero:
   name: "Aulix SAAS"
-  text: "Documentacion AULIX SAAS"
-  tagline: My great project tagline
+  text: "Documentación AULIX SAAS"
+  tagline: Documentación completa para desarrolladores, PMs y diseñadores
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Comenzar
+      link: /producto/vision
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Guía de Instalación
+      link: /guias/instalacion
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 📦 Producto
+    details: Visión, historias de usuario, requisitos y roadmap del proyecto
+    link: /producto/vision
+  - title: 🔧 Técnico
+    details: Arquitectura, base de datos, backend y especificaciones de API
+    link: /tecnico/arquitectura
+  - title: 📚 Guías
+    details: Instalación, flujo de Git y estándares de código
+    link: /guias/instalacion
 ---
 
