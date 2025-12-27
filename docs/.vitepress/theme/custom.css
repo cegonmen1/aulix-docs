@@ -1,0 +1,127 @@
+/* Estilos personalizados para Aulix Docs */
+
+/* Mermaid wrapper */
+.mermaid-wrapper {
+  position: relative;
+  margin: 1.5rem 0;
+  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+}
+
+.mermaid-wrapper:fullscreen {
+  background: var(--vp-c-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.mermaid-wrapper:fullscreen .mermaid-svg-container {
+  flex: 1;
+  max-height: none;
+}
+
+/* SVG Container */
+.mermaid-svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  min-height: 200px;
+  max-height: 500px;
+  overflow: hidden;
+  cursor: grab;
+  transition: transform 0.1s ease-out;
+}
+
+.mermaid-svg-container:active {
+  cursor: grabbing;
+}
+
+.mermaid-svg-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Controls */
+.mermaid-controls {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--vp-c-bg);
+  border-top: 1px solid var(--vp-c-divider);
+  justify-content: center;
+}
+
+.mermaid-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mermaid-btn:hover {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+}
+
+.mermaid-btn:active {
+  transform: scale(0.95);
+}
+
+.mermaid-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Dark mode support */
+.dark .mermaid-wrapper {
+  background: var(--vp-c-bg-soft);
+}
+
+.dark .mermaid-controls {
+  background: var(--vp-c-bg-alt);
+}
+
+.dark .mermaid-btn {
+  background: var(--vp-c-bg-soft);
+}
+
+/* Fullscreen specific styles */
+.mermaid-wrapper:fullscreen .mermaid-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(var(--vp-c-bg-rgb), 0.9);
+  backdrop-filter: blur(8px);
+}
+
+/* Tooltip hint */
+.mermaid-wrapper::before {
+  content: '🖱️ Arrastra para mover • Scroll para zoom';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 11px;
+  color: var(--vp-c-text-3);
+  background: var(--vp-c-bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mermaid-wrapper:hover::before {
+  opacity: 1;
+}

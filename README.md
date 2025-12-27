@@ -2,6 +2,10 @@
 
 Documentación oficial del proyecto Aulix SAAS, construida con [VitePress](https://vitepress.dev/).
 
+[![Deploy to GitHub Pages](https://github.com/cegonmen1/aulix-docs/actions/workflows/deploy.yml/badge.svg)](https://github.com/cegonmen1/aulix-docs/actions/workflows/deploy.yml)
+
+🔗 **Documentación en vivo**: [https://cegonmen1.github.io/aulix-docs/](https://cegonmen1.github.io/aulix-docs/)
+
 ## Tabla de Contenidos
 
 - [Requisitos](#requisitos)
@@ -10,6 +14,7 @@ Documentación oficial del proyecto Aulix SAAS, construida con [VitePress](https
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Guía de Contribución](#guía-de-contribución)
 - [Formato de Documentación](#formato-de-documentación)
+- [Diagramas con Mermaid](#diagramas-con-mermaid)
 - [Despliegue](#despliegue)
 
 ---
@@ -24,8 +29,8 @@ Documentación oficial del proyecto Aulix SAAS, construida con [VitePress](https
 1. Clona el repositorio:
 
 ```bash
-git clone <url-del-repositorio>
-cd Docs
+git clone https://github.com/cegonmen1/aulix-docs.git
+cd aulix-docs
 ```
 
 2. Instala las dependencias:
@@ -399,6 +404,136 @@ Badge <Badge type="warning" text="beta" />
 Badge <Badge type="danger" text="deprecated" />
 ```
 
+### Diagramas con Mermaid
+
+Este proyecto incluye soporte para diagramas [Mermaid](https://mermaid.js.org/). Puedes crear diagramas directamente en Markdown.
+
+#### Diagrama Entidad-Relación (ERD)
+
+Para documentar la base de datos, usa diagramas ER:
+
+````markdown
+```mermaid
+erDiagram
+    USERS ||--o{ ORDERS : places
+    USERS ||--o{ SESSIONS : has
+    USERS {
+        uuid id PK
+        string email UK
+        string password_hash
+        string first_name
+        string last_name
+        boolean is_active
+        timestamp created_at
+    }
+    ORDERS ||--|{ ORDER_ITEMS : contains
+    ORDERS {
+        uuid id PK
+        uuid user_id FK
+        decimal total
+        string status
+        timestamp created_at
+    }
+    ORDER_ITEMS {
+        uuid id PK
+        uuid order_id FK
+        uuid product_id FK
+        int quantity
+        decimal price
+    }
+    PRODUCTS ||--o{ ORDER_ITEMS : "is in"
+    PRODUCTS {
+        uuid id PK
+        string name
+        string description
+        decimal price
+        int stock
+    }
+    SESSIONS {
+        uuid id PK
+        uuid user_id FK
+        string token
+        timestamp expires_at
+    }
+```
+````
+
+#### Diagrama de Secuencia
+
+Para documentar flujos y procesos, usa diagramas de secuencia:
+
+````markdown
+```mermaid
+sequenceDiagram
+    autonumber
+    participant U as Usuario
+    participant F as Frontend
+    participant A as API Gateway
+    participant AS as Auth Service
+    participant DB as Database
+    participant R as Redis
+
+    U->>F: Click en "Iniciar Sesión"
+    F->>A: POST /auth/login {email, password}
+    A->>AS: validateCredentials()
+    AS->>DB: findUserByEmail(email)
+    DB-->>AS: User data
+    
+    alt Credenciales válidas
+        AS->>AS: verifyPassword()
+        AS->>R: storeSession(userId, token)
+        R-->>AS: OK
+        AS-->>A: {accessToken, refreshToken}
+        A-->>F: 200 OK + Tokens
+        F->>F: Guardar tokens en localStorage
+        F-->>U: Redirigir al Dashboard
+    else Credenciales inválidas
+        AS-->>A: Error: Invalid credentials
+        A-->>F: 401 Unauthorized
+        F-->>U: Mostrar error "Credenciales incorrectas"
+    end
+```
+````
+
+#### Diagrama de Flujo
+
+Para documentar procesos de negocio:
+
+````markdown
+```mermaid
+flowchart TD
+    A[Usuario solicita registro] --> B{Email válido?}
+    B -->|Sí| C{Email ya existe?}
+    B -->|No| D[Mostrar error de validación]
+    C -->|No| E[Crear usuario en BD]
+    C -->|Sí| F[Mostrar error: email duplicado]
+    E --> G[Enviar email de verificación]
+    G --> H[Mostrar mensaje de éxito]
+    D --> A
+    F --> A
+```
+````
+
+#### Diagrama de Arquitectura (C4)
+
+Para documentar arquitectura de alto nivel:
+
+````markdown
+```mermaid
+C4Context
+    title Diagrama de Contexto - Aulix SAAS
+    
+    Person(user, "Usuario", "Usuario de la plataforma")
+    System(aulix, "Aulix SAAS", "Sistema principal")
+    System_Ext(email, "Email Service", "SendGrid")
+    System_Ext(payment, "Payment Gateway", "Stripe")
+    
+    Rel(user, aulix, "Usa", "HTTPS")
+    Rel(aulix, email, "Envía emails")
+    Rel(aulix, payment, "Procesa pagos")
+```
+````
+
 ### Mejores Prácticas
 
 1. **Usa encabezados jerárquicos**: Comienza con `#` y usa `##`, `###` de forma ordenada
@@ -424,11 +559,11 @@ Los archivos estáticos se generan en `docs/.vitepress/dist/`.
 
 #### GitHub Pages
 
-1. Configura `docs/.vitepress/config.js`:
+1. Configura `docs/.vitepress/config.mts`:
 
 ```javascript
 export default {
-  base: '/<nombre-repositorio>/'  // Si no es dominio raíz
+  base: '/aulix-docs/'  // Nombre del repositorio
 }
 ```
 
@@ -486,8 +621,8 @@ jobs:
 
 ## Soporte
 
-Si tienes dudas o encuentras problemas, abre un issue en el repositorio.
+Si tienes dudas o encuentras problemas, [abre un issue en el repositorio](https://github.com/cegonmen1/aulix-docs/issues).
 
 ---
 
-**Aulix SAAS** © 2025
+**Aulix SAAS** © 2025 | [Repositorio en GitHub](https://github.com/cegonmen1/aulix-docs)
