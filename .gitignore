@@ -1,0 +1,17 @@
+# Dependencias (ignorar todas)
+node_modules
+pnpm-lock.yaml
+yarn.lock
+
+# Sistema (Basura de Mac/Windows)
+.DS_Store
+Thumbs.db
+
+# VitePress Build & Cache
+docs/.vitepress/dist
+docs/.vitepress/cache
+.vitepress/dist
+.vitepress/cache
+
+# Archivos de logs
+*.log
